@@ -9,8 +9,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class DBAdapter {
-    static final String KEY_ROWID = "_id";
-    static final String KEY_NAME = "name";
+    static final String KEY_ROWID = "id";
+    static final String KEY_FNAME = "fname";
+    static final String KEY_LNAME = "lname";
+    static final String KEY_PNUMBER = "pnumber";
     static final String KEY_EMAIL = "email";
     static final String TAG = "DBAdapter";
 
@@ -19,8 +21,7 @@ public class DBAdapter {
     static final int DATABASE_VERSION = 2;
 
     static final String DATABASE_CREATE =
-        "create table contacts (_id integer primary key autoincrement, "
-        + "name text not null, email text not null);";
+        "create table contacts (_id integer primary key autoincrement, " + "fname text nullable, lname text nullable, pnumber text nullable, email text nullable);";
 
     final Context context;
 
@@ -74,10 +75,12 @@ public class DBAdapter {
     }
 
     //---insert a contact into the database---
-    public long insertContact(String name, String email) 
+    public long insertContact(String fname, String lname, String pnumber, String email)
     {
         ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_NAME, name);
+        initialValues.put(KEY_FNAME,fname);
+        initialValues.put(KEY_LNAME, lname);
+        initialValues.put(KEY_PNUMBER, pnumber);
         initialValues.put(KEY_EMAIL, email);
         return db.insert(DATABASE_TABLE, null, initialValues);
     }
@@ -91,17 +94,14 @@ public class DBAdapter {
     //---retrieves all the contacts---
     public Cursor getAllContacts()
     {
-        return db.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME,
-                KEY_EMAIL}, null, null, null, null, null);
+        return db.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_FNAME,KEY_LNAME, KEY_PNUMBER, KEY_EMAIL}, null, null, null, null, null);
     }
 
     //---retrieves a particular contact---
     public Cursor getContact(long rowId) throws SQLException 
     {
         Cursor mCursor =
-                db.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
-                KEY_NAME, KEY_EMAIL}, KEY_ROWID + "=" + rowId, null,
-                null, null, null, null);
+                db.query(true, DATABASE_TABLE, new String[] {KEY_ROWID, KEY_FNAME, KEY_LNAME, KEY_PNUMBER, KEY_EMAIL}, KEY_ROWID + "=" + rowId, null,null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
         }
@@ -109,10 +109,12 @@ public class DBAdapter {
     }
 
     //---updates a contact---
-    public boolean updateContact(long rowId, String name, String email) 
+    public boolean updateContact(long rowId, String fname, String lname, String pnumber, String email)
     {
         ContentValues args = new ContentValues();
-        args.put(KEY_NAME, name);
+        args.put(KEY_FNAME, fname);
+        args.put(KEY_LNAME, lname);
+        args.put(KEY_PNUMBER, pnumber);
         args.put(KEY_EMAIL, email);
         return db.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
