@@ -4,4 +4,4 @@
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" android:showAsAction="never" />
 </menu>
-<!-- From: file:/M:/Year%202/Semester%204/Comp259/Git%20Project/Android/app/src/main/res/menu/menu_activity2.xml -->
+<!-- From: file:/C:/Users/Rome/Documents/GitHub/Android/Android/app/src/main/res/menu/menu_activity2.xml -->

@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import java.io.File;
@@ -22,20 +24,45 @@ import java.util.ArrayList;
 
 public class MainActivity extends ListActivity{
 
-	DBAdapter db = new DBAdapter(this);
-	ListView listView;
-	Context myContext=null;
-    ArrayList<Contact> contactList = new ArrayList<Contact>();
-    ArrayAdapter<Contact> adapter;
-	
+	//private DBAdapter db = new DBAdapter(this);
+	private DBAdapter db;
+	private Cursor dbCursor;
+    private static final int INSERT_ID = Menu.FIRST;
+    private static final int DELETE_ID = Menu.FIRST + 1;
+
+    //ListView listView;
+	//Context myContext=null;
+    //ArrayList<Contact> contactList = new ArrayList<Contact>();
+    //ArrayAdapter<Contact> adapter;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        db = new DBAdapter(this);
+        //myContext = this.getApplicationContext();
 
-		myContext = this.getApplicationContext();
+        db.open();
+        UpdateDisplay();
+    }
+        private void UpdateDisplay(){
+        dbCursor = db.getAllContacts();
+        startManagingCursor(dbCursor);
+        String[] start = new String[]{DBAdapter.KEY_FNAME};
+        int[] end = new int[]{R.id.display_name};
+        SimpleCursorAdapter contacts = new SimpleCursorAdapter(this, R.layout.display_contact, dbCursor, start, end);
+        setListAdapter(contacts);
+    }
+   /* @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        menu.add(0, INSERT_ID, 0, R.string.menu_insert);
+        menu.add(0, DELETE_ID, 0, R.string.menu_delete);
+        return true;
+    }*/
 
 
+/*
 		try {
 			String destPath = "/data/data/" + getPackageName() +
 					"/databases";
@@ -80,15 +107,15 @@ public class MainActivity extends ListActivity{
 	}
 	public void DisplayContact(Cursor c)
 	{
-		/*Toast.makeText(this, "id: " + c.getString(0) + "\n" + "Name: " + c.getString(1) + "\n" +
-				"Email:  " + c.getString(2), Toast.LENGTH_LONG).show();*/
+		Toast.makeText(this, "id: " + c.getString(0) + "\n" + "Name: " + c.getString(1) + "\n" +
+				"Email:  " + c.getString(2), Toast.LENGTH_LONG).show();
         Contact contact = new Contact(c.getString(1), c.getString(2), c.getString(3), c.getString(4));
         contactList.add(contact);
         listView = getListView();
         adapter=new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,contactList);
         listView.setAdapter(adapter);
 	}
-
+*/
 
 
 	public void onClickNew(View v) {
@@ -104,6 +131,8 @@ public class MainActivity extends ListActivity{
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data ) {
 
+
+        /*
         Bundle updateBundle = data.getExtras();
         int Id = updateBundle.getInt("Ref");
         String newFname = updateBundle.getString("fName");
@@ -127,15 +156,14 @@ public class MainActivity extends ListActivity{
             db.deleteContact(Id);
             updateDisplay();
 
-        }
+        }*/
     }
 
 
 	@Override
 	protected void onListItemClick(ListView lv, View v, int pos, long id ){
 		super.onListItemClick(lv, v, pos, id);
-
-        Intent i = new Intent("com.comp259.contactlist.Activity2");
+        /*Intent i = new Intent("com.comp259.contactlist.Activity2");
         Bundle bundle = new Bundle();
 
         bundle.putInt("Ref", pos);
@@ -146,10 +174,11 @@ public class MainActivity extends ListActivity{
 
         i.putExtras(bundle);
 
-        startActivityForResult(i, 1);
+        startActivityForResult(i, 1);*/
 
 	}
 
+    /*
 	public void updateDisplay() {
 
         db.open();
@@ -165,5 +194,5 @@ public class MainActivity extends ListActivity{
         adapter=new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,contactList);
         listView.setAdapter(adapter);
 
-	}
+	}*/
 }

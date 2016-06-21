@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class DBAdapter {
-    static final String KEY_ROWID = "id";
+    static final String KEY_ROWID = "_id";
     static final String KEY_FNAME = "fname";
     static final String KEY_LNAME = "lname";
     static final String KEY_PNUMBER = "pnumber";

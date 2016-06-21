@@ -18,11 +18,12 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_Add=0x7f08000c;
-        public static final int action_settings=0x7f08000b;
+        public static final int action_Add=0x7f08000d;
+        public static final int action_settings=0x7f08000c;
         public static final int btnAdd=0x7f08000a;
         public static final int btnDelete=0x7f080009;
         public static final int btnSave=0x7f080000;
+        public static final int display_name=0x7f08000b;
         public static final int lblEmail=0x7f080008;
         public static final int lblFName=0x7f080002;
         public static final int lblLName=0x7f080005;
@@ -35,6 +36,7 @@ public final class R {
     public static final class layout {
         public static final int activity_activity2=0x7f030000;
         public static final int activity_main=0x7f030001;
+        public static final int display_contact=0x7f030002;
     }
     public static final class menu {
         public static final int main=0x7f070000;
