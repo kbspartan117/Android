@@ -42,6 +42,25 @@ public class MainActivity extends ListActivity{
         db = new DBAdapter(this);
         //myContext = this.getApplicationContext();
 
+        try {
+            String destPath = "/data/data/" + getPackageName() +
+                    "/databases";
+            File f = new File(destPath);
+            if (!f.exists()) {
+                f.mkdirs();
+                f.createNewFile();
+
+                //---copy the db from the assets folder into
+                // the databases folder---
+                CopyDB(getBaseContext().getAssets().open("mydb"),
+                        new FileOutputStream(destPath + "/MyDB"));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         db.open();
         UpdateDisplay();
     }
@@ -53,14 +72,6 @@ public class MainActivity extends ListActivity{
         SimpleCursorAdapter contacts = new SimpleCursorAdapter(this, R.layout.display_contact, dbCursor, start, end);
         setListAdapter(contacts);
     }
-   /* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        menu.add(0, INSERT_ID, 0, R.string.menu_insert);
-        menu.add(0, DELETE_ID, 0, R.string.menu_delete);
-        return true;
-    }*/
-
 
 /*
 		try {
@@ -92,7 +103,7 @@ public class MainActivity extends ListActivity{
 			} while (c.moveToNext());
 		}
 		//db.close();
-	}
+	}*/
 
 	public void CopyDB(InputStream inputStream,
 					   OutputStream outputStream) throws IOException {
@@ -105,6 +116,7 @@ public class MainActivity extends ListActivity{
 		inputStream.close();
 		outputStream.close();
 	}
+    /*
 	public void DisplayContact(Cursor c)
 	{
 		Toast.makeText(this, "id: " + c.getString(0) + "\n" + "Name: " + c.getString(1) + "\n" +

@@ -20,12 +20,5 @@
         android:layout_alignParentEnd="true"
         android:onClick="onClickNew" />
 
-    <TextView
-        android:id="@+id/android:empty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        />
-
 
 </LinearLayout>
