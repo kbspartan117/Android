@@ -20,9 +20,9 @@ public class Activity2 extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_activity2);
 
         Bundle bundle = getIntent().getExtras();
-        int ref = bundle.getInt("Ref");
+        int req = bundle.getInt("requestCode");
 
-        if(ref >= 0) {
+        if(req >= 0) {
             ETfName = (EditText) findViewById(R.id.txtFName);
             ETlName = (EditText) findViewById(R.id.txtLName);
             ETphoneNumber = (EditText) findViewById(R.id.txtPNumber);
@@ -33,7 +33,7 @@ public class Activity2 extends Activity implements View.OnClickListener {
             ETphoneNumber.setText(bundle.getString("pNumber"));
             ETemail.setText(bundle.getString("email"));
         }
-        else if(ref == -1){
+        else if(req == -1){
             ETfName = (EditText) findViewById(R.id.txtFName);
             ETlName = (EditText) findViewById(R.id.txtLName);
             ETphoneNumber = (EditText) findViewById(R.id.txtPNumber);

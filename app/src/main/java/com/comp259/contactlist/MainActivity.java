@@ -27,8 +27,8 @@ public class MainActivity extends ListActivity{
 	//private DBAdapter db = new DBAdapter(this);
 	private DBAdapter db;
 	private Cursor dbCursor;
-    private static final int INSERT_ID = Menu.FIRST;
-    private static final int DELETE_ID = Menu.FIRST + 1;
+    //private static final int INSERT_ID = Menu.FIRST;
+    //private static final int DELETE_ID = Menu.FIRST + 1;
 
     //ListView listView;
 	//Context myContext=null;
@@ -67,9 +67,9 @@ public class MainActivity extends ListActivity{
         private void UpdateDisplay(){
         dbCursor = db.getAllContacts();
         startManagingCursor(dbCursor);
-        String[] start = new String[]{DBAdapter.KEY_FNAME};
-        int[] end = new int[]{R.id.display_name};
-        SimpleCursorAdapter contacts = new SimpleCursorAdapter(this, R.layout.display_contact, dbCursor, start, end);
+        String[] from = new String[]{DBAdapter.KEY_FNAME, DBAdapter.KEY_LNAME};
+        int[] to = new int[]{R.id.display_fname, R.id.display_lname};
+        SimpleCursorAdapter contacts = new SimpleCursorAdapter(this, R.layout.display_contact, dbCursor, from, to);
         setListAdapter(contacts);
     }
 
@@ -187,6 +187,22 @@ public class MainActivity extends ListActivity{
         i.putExtras(bundle);
 
         startActivityForResult(i, 1);*/
+
+        dbCursor.moveToPosition(pos);
+        Intent i = new Intent();
+        Bundle b = new Bundle();
+        int requestCode = 1;
+
+        b.putInt("requestCode", requestCode);
+        b.putInt(db.KEY_ROWID, dbCursor.getInt(dbCursor.getColumnIndexOrThrow(db.KEY_ROWID)));
+        b.putString(db.KEY_FNAME, dbCursor.getString(dbCursor.getColumnIndexOrThrow(db.KEY_FNAME)));
+        b.putString(db.KEY_LNAME, dbCursor.getString(dbCursor.getColumnIndexOrThrow(db.KEY_LNAME)));
+        b.putString(db.KEY_PNUMBER, dbCursor.getString(dbCursor.getColumnIndexOrThrow(db.KEY_PNUMBER)));
+        b.putString(db.KEY_EMAIL, dbCursor.getString(dbCursor.getColumnIndexOrThrow(db.KEY_EMAIL)));
+
+        i.putExtras(b);
+        startActivityForResult(i, requestCode);
+
 
 	}
 
