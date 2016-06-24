@@ -24,8 +24,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends ListActivity{
 
-	private DBAdapter db;
-	private Cursor dbCursor;
+	public DBAdapter db;
+	public Cursor dbCursor;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,6 @@ public class MainActivity extends ListActivity{
         }
 
         db.open();
-
         UpdateDisplay();
     }
 
@@ -78,7 +77,7 @@ public class MainActivity extends ListActivity{
 
             Intent intent = new Intent("com.comp259.contactlist.Activity2");
             Bundle bundle = new Bundle();
-			bundle.putInt("Ref", -1);
+			bundle.putInt("requestCode", -1);
 			intent.putExtras(bundle);
 			startActivityForResult(intent, 1);
 
@@ -89,26 +88,29 @@ public class MainActivity extends ListActivity{
 
 
         Bundle updateBundle = data.getExtras();
-        int Id = updateBundle.getInt("Ref");
-        String newFname = updateBundle.getString("fName");
-        String newLname = updateBundle.getString("lName");
-        String newpNumber = updateBundle.getString("pNumber");
+        int Id = updateBundle.getInt("_id");
+        String newFname = updateBundle.getString("fname");
+        String newLname = updateBundle.getString("lname");
+        String newpNumber = updateBundle.getString("pnumber");
         String newEmail = updateBundle.getString("email");
         Contact c = new Contact(newFname, newLname, newpNumber, newEmail);
 
         if (resultCode == -1) {
 
             db.insertContact(newFname, newLname, newpNumber, newEmail);
+            Toast.makeText(this, "Contact Added", Toast.LENGTH_SHORT).show();
             UpdateDisplay();
 
         } else if (resultCode == 1) {
 
             db.updateContact(Id, newFname, newLname, newpNumber, newEmail);
+            Toast.makeText(this, "Contact Updated", Toast.LENGTH_SHORT).show();
             UpdateDisplay();
 
         } else if (resultCode == 2) {
 
             db.deleteContact(Id);
+            Toast.makeText(this, "Contact Deleted", Toast.LENGTH_SHORT).show();
             UpdateDisplay();
 
         }

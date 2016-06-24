@@ -2,6 +2,7 @@ package com.comp259.contactlist;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -11,7 +12,8 @@ public class Activity2 extends Activity implements View.OnClickListener {
 
 
     public EditText ETfName, ETlName, ETphoneNumber, ETemail;
-
+    public DBAdapter db;
+    public Cursor dbCursor;
 
 
     @Override
@@ -58,47 +60,50 @@ public class Activity2 extends Activity implements View.OnClickListener {
 
         finish();
 
-        Toast.makeText(this, "Contact Deleted", Toast.LENGTH_LONG).show();
-
-    }
+        }
 
     public void onSaveClick(View v) {
 
-        Bundle bundle = getIntent().getExtras();
-        int ID = bundle.getInt("Ref");
 
-        EditText txtNewFname = (EditText)findViewById(R.id.txtFName);
+        Bundle bundle = getIntent().getExtras();
+        int ID = bundle.getInt("_id");
+        int req = bundle.getInt("requestCode");
+
+        EditText txtNewFname = (EditText) findViewById(R.id.txtFName);
         String newFname = txtNewFname.getText().toString();
 
-        EditText txtNewLname = (EditText)findViewById(R.id.txtLName);
+        EditText txtNewLname = (EditText) findViewById(R.id.txtLName);
         String newLname = txtNewLname.getText().toString();
 
-        EditText txtNewPNumber = (EditText)findViewById(R.id.txtPNumber);
+        EditText txtNewPNumber = (EditText) findViewById(R.id.txtPNumber);
         String newPNumber = txtNewPNumber.getText().toString();
 
-        EditText txtnewEmail = (EditText)findViewById(R.id.txtEmail);
+        EditText txtnewEmail = (EditText) findViewById(R.id.txtEmail);
         String newEmail = txtnewEmail.getText().toString();
 
         Intent intent = new Intent("android.intent.action.MAIN");
 
+        //dbCursor = db.getAllContacts();
+        //db.updateContact(ID, newFname, newLname, newPNumber, newEmail);
+
         Bundle newBundle = new Bundle();
-        newBundle.putInt("Ref", ID);
+        newBundle.putInt("_id", ID);
         newBundle.putString("fname", newFname);
         newBundle.putString("lname", newLname);
         newBundle.putString("pnumber", newPNumber);
         newBundle.putString("email", newEmail);
-
-
         intent.putExtras(newBundle);
 
-        if (ID == -1){
+        if (req == -1){
             setResult(-1,intent);
         }
-        else {
+        else if(req == 1) {
             setResult(1, intent);
         }
+        else if (req == 2){
+            setResult(2, intent);
+        }
         finish();
-        Toast.makeText(this, "Contact Saved", Toast.LENGTH_LONG).show();
     }
 
     public void onClick(View view) {
