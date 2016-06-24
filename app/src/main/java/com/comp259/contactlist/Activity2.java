@@ -28,9 +28,9 @@ public class Activity2 extends Activity implements View.OnClickListener {
             ETphoneNumber = (EditText) findViewById(R.id.txtPNumber);
             ETemail = (EditText) findViewById(R.id.txtEmail);
 
-            ETfName.setText(bundle.getString("fName"));
-            ETlName.setText(bundle.getString("lName"));
-            ETphoneNumber.setText(bundle.getString("pNumber"));
+            ETfName.setText(bundle.getString("fname"));
+            ETlName.setText(bundle.getString("lname"));
+            ETphoneNumber.setText(bundle.getString("pnumber"));
             ETemail.setText(bundle.getString("email"));
         }
         else if(req == -1){
@@ -83,9 +83,9 @@ public class Activity2 extends Activity implements View.OnClickListener {
 
         Bundle newBundle = new Bundle();
         newBundle.putInt("Ref", ID);
-        newBundle.putString("fName", newFname);
-        newBundle.putString("lName", newLname);
-        newBundle.putString("pNumber", newPNumber);
+        newBundle.putString("fname", newFname);
+        newBundle.putString("lname", newLname);
+        newBundle.putString("pnumber", newPNumber);
         newBundle.putString("email", newEmail);
 
 
