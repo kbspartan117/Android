@@ -24,11 +24,11 @@ import java.util.ArrayList;
 
 public class MainActivity extends ListActivity{
 
-	public DBAdapter db;
-	public Cursor dbCursor;
+    public DBAdapter db;
+    public Cursor dbCursor;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -42,8 +42,6 @@ public class MainActivity extends ListActivity{
                 f.mkdirs();
                 f.createNewFile();
 
-                //---copy the db from the assets folder into
-                // the databases folder---
                 CopyDB(getBaseContext().getAssets().open("mydb"),
                         new FileOutputStream(destPath + "/MyDB"));
             }
@@ -60,66 +58,40 @@ public class MainActivity extends ListActivity{
 
 
 
-	public void CopyDB(InputStream inputStream,
-					   OutputStream outputStream) throws IOException {
-		//---copy 1K bytes at a time---
-		byte[] buffer = new byte[1024];
-		int length;
-		while ((length = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, length);
-		}
-		inputStream.close();
-		outputStream.close();
-	}
-
-
-	public void onClickNew(View v) {
-
-            Intent intent = new Intent("com.comp259.contactlist.Activity2");
-            Bundle bundle = new Bundle();
-			bundle.putInt("requestCode", -1);
-			intent.putExtras(bundle);
-			startActivityForResult(intent, 1);
-
-		}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data ) {
-
-
-        Bundle updateBundle = data.getExtras();
-        int Id = updateBundle.getInt("_id");
-        String newFname = updateBundle.getString("fname");
-        String newLname = updateBundle.getString("lname");
-        String newpNumber = updateBundle.getString("pnumber");
-        String newEmail = updateBundle.getString("email");
-        Contact c = new Contact(newFname, newLname, newpNumber, newEmail);
-
-        if (resultCode == -1) {
-
-            db.insertContact(newFname, newLname, newpNumber, newEmail);
-            Toast.makeText(this, "Contact Added", Toast.LENGTH_SHORT).show();
-            UpdateDisplay();
-
-        } else if (resultCode == 1) {
-
-            db.updateContact(Id, newFname, newLname, newpNumber, newEmail);
-            Toast.makeText(this, "Contact Updated", Toast.LENGTH_SHORT).show();
-            UpdateDisplay();
-
-        } else if (resultCode == 2) {
-
-            db.deleteContact(Id);
-            Toast.makeText(this, "Contact Deleted", Toast.LENGTH_SHORT).show();
-            UpdateDisplay();
-
+    public void CopyDB(InputStream inputStream,
+                       OutputStream outputStream) throws IOException {
+        //---copy 1K bytes at a time---
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = inputStream.read(buffer)) > 0) {
+            outputStream.write(buffer, 0, length);
         }
+        inputStream.close();
+        outputStream.close();
     }
 
 
-	@Override
-	protected void onListItemClick(ListView lv, View v, int pos, long id ){
-		super.onListItemClick(lv, v, pos, id);
+    public void onClickNew(View v) {
+
+        Intent intent = new Intent("com.comp259.contactlist.Activity2");
+        Bundle bundle = new Bundle();
+        bundle.putInt("requestCode", -1);
+        intent.putExtras(bundle);
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data ) {
+
+        UpdateDisplay();
+
+    }
+
+
+    @Override
+    protected void onListItemClick(ListView lv, View v, int pos, long id ){
+        super.onListItemClick(lv, v, pos, id);
 
         dbCursor.moveToPosition(pos);
         Intent i = new Intent("com.comp259.contactlist.Activity2");
@@ -134,10 +106,10 @@ public class MainActivity extends ListActivity{
         b.putString(db.KEY_EMAIL, dbCursor.getString(dbCursor.getColumnIndexOrThrow(db.KEY_EMAIL)));
 
         i.putExtras(b);
-        startActivityForResult(i, requestCode);
+        startActivity(i);
 
 
-	}
+    }
 
     private void UpdateDisplay(){
         dbCursor = db.getAllContacts();

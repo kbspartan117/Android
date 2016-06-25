@@ -4,7 +4,7 @@
 
 
     <TextView
-        android:layout_width="151dp"
+        android:layout_width="194dp"
         android:layout_height="44dp"
         android:id="@+id/display_fname"
         android:textSize="25sp"
@@ -16,4 +16,4 @@
         android:textSize="25sp"
         android:text=""/>
 
-</LinearLayout><!-- From: file:/C:/Users/Rome/Documents/GitHub/Android/Android/app/src/main/res/layout/display_contact.xml -->
+</LinearLayout><!-- From: file:/M:/Year%202/Semester%204/Comp259/Android/app/src/main/res/layout/display_contact.xml -->
